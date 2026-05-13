@@ -1,0 +1,40 @@
+#!/bin/bash
+# ==============================
+# GAMING MODE - Performance
+# ==============================
+
+echo "Switching to Gaming Mode..."
+
+# GPU: Switch to hybrid (NVIDIA + Intel) 
+sudo envycontrol --switch nvidia
+
+# CPU: Set governor to performance 
+for cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
+    echo "performance" | sudo tee $cpu > /dev/null
+done
+echo "[OK] CPU governor set to performance"
+
+# Refresh rate: Restore to 165hz 
+if xrandr --output eDP-1 --mode 1920x1080 --rate 165 2>/dev/null; then
+    echo "[OK] Refresh rate set to 165Hz"
+else
+    echo "[WARN] Could not set refresh rate - run 'xrandr' to check your output name and available rates"
+fi
+
+#  Battery: Cap charge (60% on Legion 5 2020 model, not sure about others) to preserve health while plugged in 
+echo 1 | sudo tee /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode
+echo "[OK] Charge limit set to 80% (conservation mode enabled)"
+
+#  WiFi: Disable power saving (reduces latency spikes) 
+sudo iwconfig wlp0s20f3 power off 2>/dev/null && echo "[OK] WiFi power saving disabled" || \
+echo "[WARN] Could not disable WiFi power saving"
+
+#  Bluetooth: Leave as-is (user preference) 
+
+# TLP: Apply AC profile 
+sudo tlp ac 2>/dev/null && echo "[OK] TLP AC profile applied"
+
+echo ""
+echo "Gaming Mode active."
+echo "NOTE: GPU switch (hybrid) requires a reboot to take effect."
+echo "Reminder: Toggle Fn+Q to 'Performance' mode for fan profile."
