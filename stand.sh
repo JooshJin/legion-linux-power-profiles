@@ -3,7 +3,7 @@
 # GAMING MODE - Performance
 # ==============================
 
-echo "Switching to Gaming Mode..."
+echo "Switching to Stand Mode..."
 
 # GPU: Switch to hybrid (NVIDIA + Intel) 
 sudo envycontrol --switch hybrid
