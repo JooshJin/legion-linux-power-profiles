@@ -5,8 +5,8 @@
 
 echo "Switching to Gaming Mode..."
 
-# GPU: Switch to hybrid (NVIDIA + Intel) 
-sudo envycontrol --switch hybrid
+# GPU: Switch to NVIDIA 
+sudo envycontrol --switch nvidia
 
 # CPU: Set governor to performance 
 for cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do

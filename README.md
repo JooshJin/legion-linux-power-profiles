@@ -19,7 +19,7 @@ Optimizes the system for productivity and battery life:
 
 ### `gaming.sh` — Performance / Gaming Mode
 Maximizes performance for gaming:
-- **GPU**: Switches to hybrid mode (NVIDIA + Intel via `envycontrol`)
+- **GPU**: Switches to NVIDIA mode 
 - **CPU**: Sets governor to `performance`
 - **Display**: Restores refresh rate to 165Hz
 - **Battery**: Enables conservation mode (caps charge to ~60% to preserve battery health)
