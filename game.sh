@@ -25,14 +25,17 @@ fi
 echo 1 | sudo tee /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode
 echo "[OK] Charge limit set to 80% (conservation mode enabled)"
 
-#  WiFi: Disable power saving (reduces latency spikes) 
-sudo iwconfig wlp0s20f3 power off 2>/dev/null && echo "[OK] WiFi power saving disabled" || \
+# TLP: Apply AC profile (do this BEFORE the wifi override, since tlp ac
+# can re-enable power_save if WIFI_PWR_ON_AC isn't set to 'off')
+sudo tlp ac 2>/dev/null && echo "[OK] TLP AC profile applied"
+
+# WiFi: Disable power saving (reduces latency spikes)
+# Using 'iw' instead of 'iwconfig' - iwconfig's power management
+# is legacy WEXT and silently no-ops on most modern nl80211 drivers.
+sudo iw dev wlp0s20f3 set power_save off 2>/dev/null && echo "[OK] WiFi power saving disabled" || \
 echo "[WARN] Could not disable WiFi power saving"
 
 #  Bluetooth: Leave as-is (user preference) 
-
-# TLP: Apply AC profile 
-sudo tlp ac 2>/dev/null && echo "[OK] TLP AC profile applied"
 
 echo ""
 echo "Gaming Mode active."

@@ -25,16 +25,17 @@ fi
 echo 0 | sudo tee /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode
 echo "[OK] Charge limit removed (full charge allowed)"
 
+# TLP: Apply battery profile (do this BEFORE the wifi override, for
+# consistency with stand.sh's ordering)
+sudo tlp bat 2>/dev/null && echo "[OK] TLP battery profile applied"
+
 # WiFi: Enable power saving
-sudo iwconfig wlp0s20f3 power on 2>/dev/null && echo "[OK] WiFi power saving enabled" || \
+sudo iw dev wlp0s20f3 set power_save on 2>/dev/null && echo "[OK] WiFi power saving enabled" || \
 echo "[WARN] Could not set WiFi power saving"
 
 # Bluetooth: Turn off 
 sudo rfkill block bluetooth && echo "[OK] Bluetooth disabled" || \
 echo "[WARN] Could not disable Bluetooth"
-
-# TLP: Apply battery profile
-sudo tlp bat 2>/dev/null && echo "[OK] TLP battery profile applied"
 
 echo ""
 echo "Work Mode active."
