@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================
-# GAMING MODE - Performance
+# STAND MODE - Charging and Performance Optimized
 # ==============================
 
 echo "Switching to Stand Mode..."
